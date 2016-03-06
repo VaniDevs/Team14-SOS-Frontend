@@ -3,7 +3,7 @@ var host = "http://secret-earth-48637.herokuapp.com";
 var SosContainer = React.createClass({
     loadSosFromServer: function(sos_uuid) {
         var apiUrl = host + '/sos/' + sos_uuid;
-        //console.log(apiUrl);
+        console.log(apiUrl);
         $.ajax({
             url: apiUrl,
             dataType: 'json',
@@ -61,7 +61,7 @@ var SosContainer = React.createClass({
         setInterval(this.loadSosFromServer, 2000);
     },
     render: function() {
-        var boundPoll = this.handlePoll.bind(this, this.state.sosProfile));
+        var boundPoll = this.handlePoll.bind(this, this.state.sosProfile);
         return (
             <div className="sosContainer">
                 {this.state.items.map(function(item) {
@@ -95,7 +95,7 @@ var SosInformation = React.createClass({
             return (
                 <div className="sosProfile">
                     <User data={this.props.userData} />
-                    <Location data={this.props.data} handlePoll={this.props.handlePoll}/>
+                    <Location data={this.props.data.location_list} handlePoll={this.props.handlePoll}/>
                 </div>
             );
         }
@@ -124,9 +124,19 @@ var User = React.createClass({
 
 var Location = React.createClass({
     render: function() {
-        return (
-            <h1>fuck you</h1>
-        );
+        if (this.props.data == null) {
+            console.log(this.props.data);
+            return false;
+        }
+        else {
+            return (
+                <ul>
+                    {this.props.data.map(function(location) {
+                        return (<li>{location.latitude}, {location.longitude}</li>);
+                    })}
+                </ul>
+            );
+        }
     }
 });
 
