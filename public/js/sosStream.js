@@ -1,5 +1,5 @@
+// TODO: rename this to the final api host
 var host = "http://boiling-headland-57707.herokuapp.com";
-// https//boiling-headland-57707.herokuapp.com
 
 var SosContainer = React.createClass({
     loadSosFromServer: function(sos_uuid) {
@@ -56,10 +56,10 @@ var SosContainer = React.createClass({
             locationList: []
         };
     },
-    componentDidMount: function() {
+    componentWillMount: function() {
         this.loadSosListFromServer();
         // websocket this instead of polling
-        //setInterval(this.loadSosListFromServer, this.props.pollInterval);
+        setInterval(this.loadSosListFromServer, this.props.pollInterval);
     },
     handleClick: function(sos) {
         this.loadSosFromServer(sos.sos_uuid);
@@ -78,6 +78,7 @@ var SosContainer = React.createClass({
                             <th>User ID</th>
                             <th>SOS ID</th>
                             <th>Show Info</th>
+                            <th>Complete</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -89,7 +90,7 @@ var SosContainer = React.createClass({
                         }, this)}
                     </tbody>
                 </table>
-                <SosInformation data={this.state.sosProfile} locationData={this.state.locationList} userData={this.state.userProfile} handlePoll={boundPoll}/>
+                <SosInformation key={this.state.sosProfile.sos_uuid} data={this.state.sosProfile} locationData={this.state.locationList} userData={this.state.userProfile} handlePoll={boundPoll}/>
             </div>
         );
     }
@@ -99,13 +100,15 @@ var SosItem = React.createClass({
     render: function() {
         var ButtonToolbar = ReactBootstrap.ButtonToolbar;
         var Button = ReactBootstrap.Button;
+        var complete = this.props.data.status == 0 ? "true" : "false";
         return (
             <tr id={this.props.data.user_uuid}>
-                <td className="col-xs-12 col-sm-4">{this.props.data.user_uuid}</td>
-                <td className="col-xs-12 col-sm-4">{this.props.data.sos_uuid}</td>
-                <td className="col-xs-12 col-sm-4">
+                <td className="col-xs-12 col-sm-3">{this.props.data.user_uuid}</td>
+                <td className="col-xs-12 col-sm-3">{this.props.data.sos_uuid}</td>
+                <td className="col-xs-12 col-sm-3">
                     <Button bsStyle="primary" id={this.props.data.sos_uuid} onClick={this.props.onClick}>Open User Info</Button>
                 </td>
+                <td>{complete}</td>
             </tr>
         );
     }
@@ -116,9 +119,10 @@ var SosInformation = React.createClass({
         return {showModal: false, status: 1};
     },
     closeRequest: function() {
-        // host/sos/sos_uuid/status/
         var apiUrl = host + "/sos/" + this.props.data.sos_uuid + "/status/"
+        console.log(apiUrl);
         $.ajax({
+            method: 'POST',
             url: apiUrl,
             dataType: 'json',
             data: {
@@ -142,9 +146,9 @@ var SosInformation = React.createClass({
     componentWillMount: function() {
         this.open();
     },
-    componentWillReceiveProps: function() {
-        this.open();
-    },
+    // componentWillReceiveProps: function() {
+    //     this.open();
+    // },
     complete: function() {
         this.closeRequest();
         this.close();
@@ -156,7 +160,6 @@ var SosInformation = React.createClass({
             var Modal = ReactBootstrap.Modal;
             var Button = ReactBootstrap.Button;
             var running = this.props.data.status != 0 ? true : false;
-            //console.log(running);
             return (
                 <Modal show={this.state.showModal} onHide={this.close}>
                     <Modal.Header closeButton>
