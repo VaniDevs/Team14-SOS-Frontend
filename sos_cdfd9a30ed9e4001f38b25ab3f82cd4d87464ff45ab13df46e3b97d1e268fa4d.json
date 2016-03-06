@@ -1,5 +1,22 @@
 {
-    "sosuuid": "cdfd9a30ed9e4001f38b25ab3f82cd4d87464ff45ab13df46e3b97d1e268fa4d",
-    "longitude": -123.1065752,
-    "latitude": 49.2639949
+    "user_uuid": "562a5dee-c21a-4cdd-879e-74bff7aeacbd",
+    "sos_uuid": "cdfd9a30ed9e4001f38b25ab3f82cd4d87464ff45ab13df46e3b97d1e268fa4d",
+    "status": 1,
+    "location_list": [
+        {
+            "time": 1457222000,
+            "longitude": -123.1065752,
+            "latitude": 49.2639949
+        },
+        {
+            "time": 1457223000,
+            "longitude": -123.1097779,
+            "latitude": 49.2631483
+        },
+        {
+            "time": 1457224000,
+            "longitude": -123.1135652,
+            "latitude": 49.2630783
+        }],
+    "date": 1457221997
 }

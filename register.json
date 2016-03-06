@@ -1,16 +1,13 @@
 {
-    "firstName": "julien",
-    "lastName": "law",
-    "dob": 665303123,
-    "country": "Canada",
-    "province": "BC",
-    "city": "Vancouver",
-    "addressHome": "453 W 12th Ave",
-    "addressWork": "2356 Main Mall",
-    "phoneNumber": 7782309060,
-    "emergencyPhone": 6043010789,
-    "emergencyName": "slaw",
-    "emergencyRelationship": "mother",
-    "created": 1457207082,
-    "lastUpdated": 1457217082
+    "user_uuid": "64c8343a-8d66-4314-8bb7-5eb7615cd681",
+    "first_name": "John",
+    "last_name": "Doe",
+    "dob": 19900101,
+    "address_home": "1234 Help Street",
+    "phone_number": "604-123-1234",
+    "emergency_phone": "604-123-1234",
+    "emergency_contact": "1234 Help Street2",
+    "secret_code": "Help",
+    "created": "2016-03-06T00:55:44",
+    "updated": "2016-03-06T00:55:45"
 }

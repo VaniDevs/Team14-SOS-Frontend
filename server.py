@@ -29,11 +29,10 @@ def sos_stream_handler():
 @app.route('/sos/<string:sos_uuid>', methods=['GET'])
 def sos_handler(sos_uuid):
     location = 'sos_' + sos_uuid + '.json'
-    # with open(location, 'r') as file:
-    with open('sosStream.json', 'r') as file:
+    with open(location, 'r') as file:
         json_data = json.loads(file.read())
-    return json_data
-    # return Response(json.dumps(sos), mimetype='application/json', headers={'Cache-Control': 'no-cache', 'Access-Control-Allow-Origin': '*'})
+    print json_data
+    return Response(json.dumps(json_data), mimetype='application/json', headers={'Cache-Control': 'no-cache', 'Access-Control-Allow-Origin': '*'})
 
 if __name__ == '__main__':
     app.run(port=int(os.environ.get("PORT", 9000)))
