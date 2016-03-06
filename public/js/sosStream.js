@@ -58,7 +58,6 @@ var SosContainer = React.createClass({
     },
     componentDidMount: function() {
         this.loadSosListFromServer();
-        //this.loadProfileFromServer("0e23ec50e065a149e5f62126106b13f3977ef6c35e7b9dad93be72d18d1511c9");
         // websocket this instead of polling
         //setInterval(this.loadSosListFromServer, this.props.pollInterval);
     },
@@ -67,7 +66,7 @@ var SosContainer = React.createClass({
         this.loadUserProfile(sos.user_uuid);
     },
     handlePoll: function() {
-        setInterval(this.loadSosFromServer, 2000);
+        //setInterval(this.loadSosFromServer, this.props.pollInterval);
     },
     render: function() {
         var boundPoll = this.handlePoll.bind(this, this.state.sosProfile);
@@ -77,14 +76,13 @@ var SosContainer = React.createClass({
                     <thead>
                         <tr>
                             <th>User ID</th>
-                            <th>Expand User</th>
-                            <th>Misc</th>
+                            <th>SOS ID</th>
+                            <th>Show Info</th>
                         </tr>
                     </thead>
                     <tbody>
                         {this.state.items.map(function(item) {
                             var boundClick = this.handleClick.bind(this, item);
-                            // TODO: handle cases where user_uuid already exists
                             return (
                                 <SosItem data={item} onClick={boundClick} key={item.sos_uuid} />
                             );
@@ -104,12 +102,10 @@ var SosItem = React.createClass({
         return (
             <tr id={this.props.data.user_uuid}>
                 <td className="col-xs-12 col-sm-4">{this.props.data.user_uuid}</td>
+                <td className="col-xs-12 col-sm-4">{this.props.data.sos_uuid}</td>
                 <td className="col-xs-12 col-sm-4">
-                    <ButtonToolbar>
-                        <Button bsStyle="primary" id={this.props.data.sos_uuid} onClick={this.props.onClick}>click me</Button>
-                    </ButtonToolbar>
+                    <Button bsStyle="primary" id={this.props.data.sos_uuid} onClick={this.props.onClick}>Open User Info</Button>
                 </td>
-                <td className="col-xs-12 col-sm-4">sample</td>
             </tr>
         );
     }
@@ -117,7 +113,25 @@ var SosItem = React.createClass({
 
 var SosInformation = React.createClass({
     getInitialState: function() {
-        return {showModal: false};
+        return {showModal: false, status: 1};
+    },
+    closeRequest: function() {
+        // host/sos/sos_uuid/status/
+        var apiUrl = host + "/sos/" + this.props.data.sos_uuid + "/status/"
+        $.ajax({
+            url: apiUrl,
+            dataType: 'json',
+            data: {
+                status: 0
+            },
+            cache: false,
+            success: function(data) {
+                console.log(data);
+            }.bind(this),
+            error: function(xhr, status, err) {
+                console.error(apiUrl, status, err.toString());
+            }.bind(this)
+        })
     },
     close: function() {
         this.setState({showModal: false});
@@ -131,12 +145,18 @@ var SosInformation = React.createClass({
     componentWillReceiveProps: function() {
         this.open();
     },
+    complete: function() {
+        this.closeRequest();
+        this.close();
+    },
     render: function() {
         if (!this.props.data.user_uuid) {
             return null;
         } else {
             var Modal = ReactBootstrap.Modal;
             var Button = ReactBootstrap.Button;
+            var running = this.props.data.status != 0 ? true : false;
+            //console.log(running);
             return (
                 <Modal show={this.state.showModal} onHide={this.close}>
                     <Modal.Header closeButton>
@@ -147,6 +167,7 @@ var SosInformation = React.createClass({
                         <Location locs={this.props.locationData} handlePoll={this.props.handlePoll}/>
                     </Modal.Body>
                     <Modal.Footer>
+                        <Button bsStyle="danger" onClick={this.complete} disabled={!running}>Complete</Button>
                         <Button onClick={this.close}>Close</Button>
                     </Modal.Footer>
                 </Modal>
