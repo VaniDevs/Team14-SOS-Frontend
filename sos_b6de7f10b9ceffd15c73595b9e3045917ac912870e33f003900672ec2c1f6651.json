@@ -1,0 +1,21 @@
+{
+    "user_uuid": "64c8343a-8d66-4314-8bb7-5eb7615cd681",
+    "sos_uuid": "b6de7f10b9ceffd15c73595b9e3045917ac912870e33f003900672ec2c1f6651",
+    "status": 1,
+    "location_list": [{
+            "time": 1457222000,
+            "longitude": -123.1065752,
+            "latitude": 49.2639949
+        },
+        {
+            "time": 1457223000,
+            "longitude": -123.1097779,
+            "latitude": 49.2631483,
+            },
+        {
+            "time": 1457224000,
+            "longitude": -123.1135652,
+            "latitude": 49.2630783
+            }],
+    "date": 1457221997
+}

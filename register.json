@@ -1,0 +1,16 @@
+{
+    "firstName": "julien",
+    "lastName": "law",
+    "dob": 665303123,
+    "country": "Canada",
+    "province": "BC",
+    "city": "Vancouver",
+    "addressHome": "453 W 12th Ave",
+    "addressWork": "2356 Main Mall",
+    "phoneNumber": 7782309060,
+    "emergencyPhone": 6043010789,
+    "emergencyName": "slaw",
+    "emergencyRelationship": "mother",
+    "created": 1457207082,
+    "lastUpdated": 1457217082
+}
